@@ -9,8 +9,8 @@ import { parseXml } from '@rgrove/parse-xml';
 import { stringify } from 'svgson';
 import * as commander from 'commander';
 
-commander.program.option("--i, --input <input>", "Input");
-commander.program.option("--o, --output <ouput>", "Ouput");
+commander.program.option('--i, --input <input>', 'Input');
+commander.program.option('--o, --output <ouput>', 'Ouput');
 commander.program.parse();
 
 const options = commander.program.opts();
@@ -53,7 +53,9 @@ const generateObjSvg = () => {
     if (obj.name === 'svg') {
       obj.attributes.fill = 'currentColor';
       obj.attributes.width = '1em';
-      obj.attributes.height = '1em';
+      obj.attributes.height = `${(
+        obj.attributes.width / obj.attributes.height
+      ).toFixed(1)}em`;
     }
 
     obj.children = formatChildrenSvg(obj.children);
@@ -61,7 +63,8 @@ const generateObjSvg = () => {
     return obj;
   };
 
-  const capitalizeFirstLetter = (string) => string[0].toUpperCase() + string.slice(1);
+  const capitalizeFirstLetter = (string) =>
+    string[0].toUpperCase() + string.slice(1);
 
   const slugify = (str) =>
     str
@@ -71,14 +74,17 @@ const generateObjSvg = () => {
       .replace(/[\s_-]+/g, '-')
       .replace(/^-+|-+$/g, '');
 
-  const updateCase = (name) => name.split('-').map(capitalizeFirstLetter).join('');
+  const updateCase = (name) =>
+    name.split('-').map(capitalizeFirstLetter).join('');
 
   // Gen Name
-  globby.globbySync(`${PATH_FOLDER_SVGS}/*.svg`, { cwd: __dirname }).forEach((p) => {
-    const parsed = path.parse(p);
-    const { name } = parsed;
-    listSvgObj.push({ name: 'Icon' + updateCase(slugify(name)), path: p });
-  });
+  globby
+    .globbySync(`${PATH_FOLDER_SVGS}/*.svg`, { cwd: __dirname })
+    .forEach((p) => {
+      const parsed = path.parse(p);
+      const { name } = parsed;
+      listSvgObj.push({ name: 'Icon' + updateCase(slugify(name)), path: p });
+    });
 
   // Gen Svg
   for (let idx = 0; idx < listSvgObj.length; idx++) {
@@ -86,7 +92,7 @@ const generateObjSvg = () => {
 
     const data = fs.readFileSync(svgPath.path, 'utf8');
     listSvgObj[idx].svg = stringify(
-      formatSvgAst(JSON.parse(JSON.stringify(parseXml(data).children[0]))),
+      formatSvgAst(JSON.parse(JSON.stringify(parseXml(data).children[0])))
     );
   }
 
@@ -137,16 +143,25 @@ export default ${svgIdentifier};
 
     writeFile(
       path.resolve(__dirname, `${PATH_FOLDER_ICONS}/${element.name}.tsx`),
-      render({ svgIdentifier: element.name, content: converter.convert(element.svg).trim() }),
+      render({
+        svgIdentifier: element.name,
+        content: converter.convert(element.svg).trim(),
+      })
     );
   }
 
   // generate icon index
   const entryText = listSvgObj
-    .map((element) => `export { default as ${element.name} } from './${element.name}';`)
+    .map(
+      (element) =>
+        `export { default as ${element.name} } from './${element.name}';`
+    )
     .join('\n');
 
-  writeFile(path.resolve(__dirname, `${PATH_FOLDER_ICONS}/index.tsx`), `${entryText}`.trim());
+  writeFile(
+    path.resolve(__dirname, `${PATH_FOLDER_ICONS}/index.tsx`),
+    `${entryText}`.trim()
+  );
 
   console.log(`\n🎉 Generate Successfully!\n`);
 };
