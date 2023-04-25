@@ -52,10 +52,14 @@ const generateObjSvg = () => {
   const formatSvgAst = (obj) => {
     if (obj.name === 'svg') {
       obj.attributes.fill = 'currentColor';
+      if (obj.attributes.height && obj.attributes.width) {
+        obj.attributes.height = `${
+          (+obj.attributes.height / +obj.attributes.width).toFixed(1) || 1
+        }em`;
+      } else {
+        obj.attributes.height = '1em';
+      }
       obj.attributes.width = '1em';
-      obj.attributes.height = `${(
-        obj.attributes.width / obj.attributes.height
-      ).toFixed(1)}em`;
     }
 
     obj.children = formatChildrenSvg(obj.children);
