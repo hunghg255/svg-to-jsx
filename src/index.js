@@ -32,15 +32,15 @@ const __dirname = path.resolve();
 const generateObjSvg = () => {
   const listSvgObj = [];
 
-  const formatChildrenSvg = (children) => {
+  const formatChildrenSvg = (children = []) => {
     const newChildren = [];
-    const childrenPath = children.filter((it) => it.name === 'path');
 
-    for (let idx = 0; idx < childrenPath.length; idx++) {
-      const element = childrenPath[idx];
+    for (let idx = 0; idx < children.length; idx++) {
+      const element = children[idx];
 
-      if (element.name === 'path') {
-        if (childrenPath.length === 1) delete element.attributes.fill;
+      if (element.name === 'path' && children?.length === 1) delete element.attributes.fill;
+
+      if (element?.children) {
         element.children = formatChildrenSvg(element.children);
         newChildren.push(element);
       }
