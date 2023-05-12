@@ -1,0 +1,12 @@
+
+import * as React from 'react';
+
+const IconKeyboardOpen = (props: React.HTMLAttributes<HTMLSpanElement>) => {
+  return <span {...props}>
+        <svg width="1em" height="1.0em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.26023 1.99991H16.7302C17.3149 1.99152 17.8995 2.02159 18.4802 2.08991C21.2502 2.39991 22.0002 3.69991 22.0002 7.25991V13.5799C22.0002 17.1399 21.2502 18.4399 18.4802 18.7499C17.8995 18.8185 17.3149 18.8486 16.7302 18.8399H7.26023C6.67556 18.8483 6.09096 18.8182 5.51023 18.7499C2.74023 18.4399 1.99023 17.1399 1.99023 13.5799V7.25991C1.99023 3.69991 2.74023 2.39991 5.51023 2.08991C6.09096 2.02159 6.67556 1.99152 7.26023 1.99991V1.99991Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.5801 8.32007H17.2601" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M6.74023 14.1099H17.2702" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M7 22H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M7.19507 8.30005H7.20007" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /><path d="M10.4951 8.30005H10.5001" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /></svg>
+  </span>;
+};
+
+IconKeyboardOpen.displayName = 'IconKeyboardOpen';
+
+export default IconKeyboardOpen;

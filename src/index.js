@@ -35,10 +35,12 @@ const generateObjSvg = () => {
   const formatChildrenSvg = (children = []) => {
     const newChildren = [];
 
+    console.log(children);
+
     for (let idx = 0; idx < children.length; idx++) {
       const element = children[idx];
 
-      if (element.name === 'path' && element?.attributes?.fill && children?.length === 1) delete element.attributes.fill;
+      if (element.name === 'path') delete element.attributes.fill;
 
       if (children?.length > 1 && element?.attributes?.stroke) element.attributes.stroke = 'currentColor';
 
