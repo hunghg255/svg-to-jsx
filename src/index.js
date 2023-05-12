@@ -38,7 +38,9 @@ const generateObjSvg = () => {
     for (let idx = 0; idx < children.length; idx++) {
       const element = children[idx];
 
-      if (element.name === 'path' && children?.length === 1) delete element.attributes.fill;
+      if (element.name === 'path' && element?.attributes?.fill && children?.length === 1) delete element.attributes.fill;
+
+      if (children?.length > 1 && element?.attributes?.stroke) element.attributes.stroke = 'currentColor';
 
       if (element?.children) {
         element.children = formatChildrenSvg(element.children);
@@ -50,8 +52,9 @@ const generateObjSvg = () => {
   };
 
   const formatSvgAst = (obj) => {
+    const pathsEle = obj.children.filter((v) => v.name === 'path')
+
     if (obj.name === 'svg') {
-      obj.attributes.fill = 'currentColor';
       if (obj.attributes.height && obj.attributes.width) {
         obj.attributes.height = `${
           (+obj.attributes.height / +obj.attributes.width).toFixed(1) || 1
@@ -61,6 +64,8 @@ const generateObjSvg = () => {
       }
       obj.attributes.width = '1em';
     }
+
+    if (pathsEle.length === 1) obj.attributes.fill = 'currentColor';
 
     obj.children = formatChildrenSvg(obj.children);
 
