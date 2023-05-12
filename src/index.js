@@ -65,7 +65,7 @@ const generateObjSvg = () => {
       obj.attributes.width = '1em';
     }
 
-    if (pathsEle.length === 1) obj.attributes.fill = 'currentColor';
+    if (pathsEle.length === 1 && !pathsEle[0]?.attributes?.stroke) obj.attributes.fill = 'currentColor';
 
     obj.children = formatChildrenSvg(obj.children);
 
