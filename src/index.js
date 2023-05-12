@@ -35,8 +35,6 @@ const generateObjSvg = () => {
   const formatChildrenSvg = (children = []) => {
     const newChildren = [];
 
-    console.log(children);
-
     for (let idx = 0; idx < children.length; idx++) {
       const element = children[idx];
 
